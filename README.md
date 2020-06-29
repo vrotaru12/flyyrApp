@@ -99,5 +99,5 @@ To start and run the local development server,
 4. Navigate to Home page [http://localhost:5000](http://localhost:5000)
 
 ## Authors
-Victoria Rotaru authored the API (app.py), config  suite (config.py), forms.py, and this README. Also, added additional Javascript code in forms (html templates).
+Victoria Rotaru authored app.py, config  suite (config.py), forms.py, and this README. Also, added additional Javascript code in forms (html templates).
 All other project files, including frontend, were created by Udacity as a project template for the Full Stack Web Developer Nanodegree.
