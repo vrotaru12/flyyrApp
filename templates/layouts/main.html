@@ -1,0 +1,299 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{% endblock %}</title>
+
+<!-- meta -->
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- /meta -->
+
+<!-- styles -->
+<link type="text/css" rel="stylesheet" href="/static/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="/static/css/layout.main.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/main.responsive.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/main.quickfix.css" />
+<!-- /styles -->
+
+<!-- favicons -->
+<link rel="shortcut icon" href="/static/ico/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="/static/ico/favicon.png">
+<!-- /favicons -->
+
+<!-- scripts -->
+<script src="https://kit.fontawesome.com/af77674fe5.js"></script>
+<script src="/static/js/libs/modernizr-2.8.2.min.js"></script>
+<script src="/static/js/libs/moment.min.js"></script>
+<script type="text/javascript" src="/static/js/script.js" defer></script>
+<!--[if lt IE 9]><script src="/static/js/libs/respond-1.4.2.min.js"></script><![endif]-->
+<!-- /scripts -->
+</head>
+<body>
+
+  <!-- Wrap all page content here -->
+  <div id="wrap">
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">🔥</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              {% if (request.endpoint == 'venues') or
+                (request.endpoint == 'search_venues') or
+                (request.endpoint == 'show_venue') %}
+              <form class="search" method="post" action="/venues/search">
+                <input class="form-control"
+                  type="search"
+                  name="search_term"
+                  id="search_term"
+                  placeholder="Find a venue"
+                  aria-label="Search">
+              </form>
+              {% endif %}
+              {% if (request.endpoint == 'artists') or
+                (request.endpoint == 'search_artists') or
+                (request.endpoint == 'show_artist') %}
+              <form class="search" method="post" action="/artists/search">
+                <input class="form-control"
+                  type="search"
+                  name="search_term"
+                  placeholder="Find an artist"
+                  aria-label="Search">
+              </form>
+              {% endif %}
+            </li>
+          </ul>
+          <ul class="nav navbar-nav">
+            <li {% if request.endpoint == 'venues' %} class="active" {% endif %}><a href="{{ url_for('venues') }}">Venues</a></li>
+            <li {% if request.endpoint == 'artists' %} class="active" {% endif %}><a href="{{ url_for('artists') }}">Artists</a></li>
+            <li {% if request.endpoint == 'shows' %} class="active" {% endif %}><a href="{{ url_for('shows') }}">Shows</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <!-- Begin page content -->
+    <main id="content" role="main" class="container">
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-block alert-info fade in">
+              <a class="close" data-dismiss="alert">&times;</a>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+      
+    </main>
+
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <p>Fyyur &copy; All Rights Reserved.</p>
+      {% block footer %}{% endblock %}
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script type="text/javascript" src="/static/js/libs/jquery-1.11.1.min.js"><\/script>')</script>
+  <script type="text/javascript" src="/static/js/libs/bootstrap-3.1.1.min.js" defer></script>
+  <script type="text/javascript" src="/static/js/plugins.js" defer></script>
+  <script>
+
+  const editBtns = document.querySelectorAll('.edit-button');
+  for (let i = 0; i < editBtns.length; i++) {
+    const editBtn = editBtns[i];
+    editBtn.onclick = function (e) {
+      const venueId = e.target.dataset['id'];
+      window.open('/venues/' + venueId + '/edit', "_self");
+      const name = document.getElementById('name').value,
+        genres = document.getElementById('genres').value,
+        address = document.getElementById('address').value,
+        city = document.getElementById('city').value,
+        state = document.getElementById('state').value,
+        phone = document.getElementById('phone').value,
+        facebook_link = document.getElementById('facebook_link').value
+
+    }
+
+  }
+
+  const editArtistBtns = document.querySelectorAll('.editArtist-button');
+  for (let i = 0; i < editArtistBtns.length; i++) {
+    const editArtistBtn = editArtistBtns[i];
+    editArtistBtn.onclick = function (e) {
+      const artistId = e.target.dataset['id'];
+      window.open('/artists/' + artistId + '/edit', "_self");
+      const name = document.getElementById('name').value,
+        genres = document.getElementById('genres').value,
+        city = document.getElementById('city').value,
+        state = document.getElementById('state').value,
+        phone = document.getElementById('phone').value,
+        facebook_link = document.getElementById('facebook_link').value;
+
+if(document.getElementById('editVenue') != null){
+  document.getElementById('editVenue').onsubmit = function (e) {
+    e.preventDefault();
+    fetch('/venues/' + venueId + '/edit', {
+      method: 'POST',
+      body: JSON.stringify({
+        "name": name,
+        "genres": genres,
+        "address": address,
+        "city": city,
+        "state": state,
+        "phone": phone,
+        "facebook_link": facebook_link,
+      
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+}     
+    }
+
+  }
+
+
+
+  const deleteBtns = document.querySelectorAll('.delete-button');
+  for (let i = 0; i < deleteBtns.length; i++) {
+    const btn = deleteBtns[i];
+    btn.onclick = function (e) {
+      document.querySelectorAll("[data-id='" + e.target.dataset['id'] + "']")[0].parentElement.remove();
+      const venue_id = e.target.dataset['id'];
+      fetch('/venues/' + venue_id, {
+        method: 'DELETE'
+      });
+
+    }
+  }
+
+
+  if(document.getElementById('newVenue') != null){
+  document.getElementById('newVenue').onsubmit = function (e) {
+    e.preventDefault();
+    fetch('/venues/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        'name': document.getElementById('name').value,
+        'city': document.getElementById('city').value,
+        'state': document.getElementById('state').value,
+        'address': document.getElementById('address').value,
+        'phone': document.getElementById('phone').value,
+        'genres': document.getElementById('genres').value,
+        'facebook_link': document.getElementById('facebook_link').value,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      window.open('http://127.0.0.1:5000/', "_self");
+      return false;
+    }).catch(function () {
+    })
+  }
+}
+
+
+
+
+
+
+if(document.getElementById('editArtist') != null){
+  document.getElementById('editArtist').onsubmit = function (e) {
+    e.preventDefault();
+    fetch('/artists/' + artistId + '/edit', {
+      method: 'POST',
+      body: JSON.stringify({
+        "name": name,
+        "genres": genres,
+        "city": city,
+        "state": state,
+        "phone": phone,
+        "website": website,
+        "facebook_link": facebook_link,
+        "seeking_talent": seeking_talent,
+        "seeking_description": seeking_description,
+        "image_link": image_link,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+}
+
+
+if(document.getElementById('newArtist') != null){
+  document.getElementById('newArtist').onsubmit = function (e) {
+    e.preventDefault();
+    fetch('/artists/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        'name': document.getElementById('name').value,
+        'city': document.getElementById('city').value,
+        'state': document.getElementById('state').value,
+        'phone': document.getElementById('phone').value,
+        'genres': document.getElementById('genres').value,
+        'facebook_link': document.getElementById('facebook_link').value,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      window.open('http://127.0.0.1:5000/', "_self");
+      return false;
+    })
+      .catch(function () {
+
+      })
+  }
+}
+
+
+if(document.getElementById('newShow') != null){
+  document.getElementById('newShow').onsubmit = function (e) {
+    e.preventDefault();
+    fetch('/shows/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        'artist_id': document.getElementById('artist_id').value,
+        'venue_id': document.getElementById('venue_id').value,
+        'start_time': document.getElementById('start_time').value,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      window.open('http://127.0.0.1:5000/', "_self");
+      return false;
+    })
+  }
+}
+
+  </script>
+</body>
+</html>
